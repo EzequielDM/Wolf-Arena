@@ -1,0 +1,8 @@
+name: Wolf Arena
+main: com.edemario.WolfArena.Main
+version: 1.0.0
+description: A wolf arena system, idea by Nana
+author: Zeki#0001
+website: https://www.onetap.com/members/ninjaoficial.34933/
+commands:
+  arena:
