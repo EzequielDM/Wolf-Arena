@@ -19,7 +19,7 @@ import java.util.List;
 
 public class Arena implements CommandExecutor, TabCompleter {
 
-    private static final String[] COMMAND_0 = { "pos1", "pos2", "start" };
+    private static final String[] COMMAND_0 = { "pos1", "pos2", "start", "kill", "restart" };
 
     public static Location pos1;
     public static Location pos2;
@@ -69,6 +69,7 @@ public class Arena implements CommandExecutor, TabCompleter {
             case "kill":
                 arenaKill();
                 return true;
+            case "reset":
             case "restart":
                 config.set("arena.round", 0);
                 Main.get().saveConfig();
@@ -103,7 +104,7 @@ public class Arena implements CommandExecutor, TabCompleter {
                 double wolf_hp = Math.floor(Math.floor(Math.random() * 100) + 20);
                 wolf.setMaxHealth(wolf_hp); wolf.setHealth(wolf_hp);
 
-                skelly = (Skeleton) p.getWorld().spawnEntity(pos1, EntityType.SKELETON);
+                skelly = (Skeleton) p.getWorld().spawnEntity(pos2, EntityType.SKELETON);
                 skelly.setCustomName("§c§k|| §cSkeleton §c§k||");
                 skelly.setCustomNameVisible(true);
                 skelly.setMetadata("arena", new FixedMetadataValue(Main.get(), "wa"));

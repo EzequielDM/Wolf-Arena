@@ -3,12 +3,15 @@ package com.edemario.WolfArena.Events;
 import com.edemario.WolfArena.Commands.Arena;
 import com.edemario.WolfArena.Main;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityTargetEvent;
+import org.bukkit.inventory.ItemStack;
 
 public class EntityHandling implements Listener {
 
@@ -31,6 +34,8 @@ public class EntityHandling implements Listener {
 
             Arena.wolf.setHealth(0);
 
+            giveReward(Arena.wolf.getLocation());
+
             Main.get().getConfig().set("arena.round", Main.get().getConfig().getInt("arena.round") + 1);
             Main.get().saveConfig();
         } else if(ent.hasMetadata("the_wolf")) {
@@ -45,21 +50,15 @@ public class EntityHandling implements Listener {
         }
     }
 
-    @EventHandler
-    public void onTarget(EntityTargetEvent e) {
-        Entity ent = e.getEntity();
-        Entity target = e.getTarget();
-
-        if(!ent.hasMetadata("the_skelly") && !ent.hasMetadata("the_wolf")) return;
-        if(!target.hasMetadata("the_skelly") && !target.hasMetadata("the_wolf")) return;
-        if(Arena.wolf.isDead() || Arena.skelly.isDead()) return;
-
-        if(ent.hasMetadata("the_skelly")) {
-            Skeleton skel = (Skeleton) ent;
-            skel.setTarget(Arena.wolf);
-        } else {
-            Wolf wolf = (Wolf) ent;
-            wolf.setTarget(Arena.skelly);
+    public void giveReward(Location l) {
+        int round = Main.get().getConfig().getInt("arena.round");
+        switch (round) {
+            case 0:
+                l.getWorld().dropItemNaturally(l, new ItemStack(Material.COAL, 64));
+                break;
+            case 1:
+                l.getWorld().dropItemNaturally(l, new ItemStack(Material.IRON_INGOT, 64));
+                break;
         }
     }
 
